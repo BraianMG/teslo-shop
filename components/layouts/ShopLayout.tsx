@@ -1,7 +1,7 @@
 import { maxWidth } from '@mui/system'
 import Head from 'next/head'
 import { FC, ReactNode } from 'react'
-import { Navbar } from '../ui'
+import { Navbar, SideMenu } from '../ui'
 
 interface Props {
   children?: ReactNode | undefined
@@ -32,7 +32,7 @@ export const ShopLayout: FC<Props> = ({
         <Navbar />
       </nav>
 
-      {/* TODO: Sidebar */}
+      <SideMenu />
 
       <main
         style={{ margin: '80px auto', padding: '0px 30px', maxWidth: '1440px' }}
