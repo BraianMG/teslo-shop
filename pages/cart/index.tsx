@@ -21,7 +21,7 @@ const CartPage = () => {
       </Typography>
       <Grid container>
         <Grid item xs={12} sm={7}>
-          <CartList editable/>
+          <CartList editable />
         </Grid>
         <Grid item xs={12} sm={5}>
           <Card className="summary-card">
@@ -31,9 +31,9 @@ const CartPage = () => {
               <OrderSummary />
 
               <Box sx={{ mt: 3 }}>
-                  <Button color='secondary' className='circular-btn' fullWidth>
-                      Checkout
-                  </Button>
+                <Button color="secondary" className="circular-btn" fullWidth>
+                  Checkout
+                </Button>
               </Box>
             </CardContent>
           </Card>
