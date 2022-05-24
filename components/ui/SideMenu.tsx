@@ -1,3 +1,5 @@
+import { useContext } from 'react'
+import { useRouter } from 'next/router'
 import {
   Box,
   Divider,
@@ -23,13 +25,23 @@ import {
   SearchOutlined,
   VpnKeyOutlined,
 } from '@mui/icons-material'
+import { UiContext } from '../../context'
 
 export const SideMenu = () => {
+  const { isMenuOpen, toggleSideMenu } = useContext(UiContext)
+  const router = useRouter()
+
+  const nagifateTo = (url: string) => {
+    toggleSideMenu()
+    router.push(url)
+  }
+
   return (
     <Drawer
-      open={false}
+      open={isMenuOpen}
       anchor="right"
       sx={{ backdropFilter: 'blur(4px)', transition: 'all 0.5s ease-out' }}
+      onClose={toggleSideMenu}
     >
       <Box sx={{ width: 250, paddingTop: 5 }}>
         <List>
@@ -56,21 +68,30 @@ export const SideMenu = () => {
             <ListItemIcon>
               <MaleOutlined />
             </ListItemIcon>
-            <ListItemText primary={'Hombres'} />
+            <ListItemText
+              primary={'Hombres'}
+              onClick={() => nagifateTo('/category/men')}
+            />
           </ListItem>
 
           <ListItem button sx={{ display: { xs: '', sm: 'none' } }}>
             <ListItemIcon>
               <FemaleOutlined />
             </ListItemIcon>
-            <ListItemText primary={'Mujeres'} />
+            <ListItemText
+              primary={'Mujeres'}
+              onClick={() => nagifateTo('/category/women')}
+            />
           </ListItem>
 
           <ListItem button sx={{ display: { xs: '', sm: 'none' } }}>
             <ListItemIcon>
               <EscalatorWarningOutlined />
             </ListItemIcon>
-            <ListItemText primary={'Niños'} />
+            <ListItemText
+              primary={'Niños'}
+              onClick={() => nagifateTo('/category/kid')}
+            />
           </ListItem>
 
           {/* Admin */}
