@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { useRouter } from 'next/router'
 import {
   Box,
@@ -28,12 +28,19 @@ import {
 import { UiContext } from '../../context'
 
 export const SideMenu = () => {
-  const { isMenuOpen, toggleSideMenu } = useContext(UiContext)
   const router = useRouter()
+  const { isMenuOpen, toggleSideMenu } = useContext(UiContext)
+  const [searchTerm, setSearchTerm] = useState('')
 
-  const nagifateTo = (url: string) => {
+  const navigateTo = (url: string) => {
     toggleSideMenu()
     router.push(url)
+  }
+
+  const onSearchTerm = () => {
+    if (searchTerm.trim().length === 0) return
+
+    navigateTo(`/search/${searchTerm}`)
   }
 
   return (
@@ -47,11 +54,14 @@ export const SideMenu = () => {
         <List>
           <ListItem>
             <Input
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              onKeyPress={(e) => (e.key === 'Enter' ? onSearchTerm() : null)}
               type="text"
               placeholder="Buscar..."
               endAdornment={
                 <InputAdornment position="end">
-                  <IconButton aria-label="toggle password visibility">
+                  <IconButton onClick={onSearchTerm}>
                     <SearchOutlined />
                   </IconButton>
                 </InputAdornment>
@@ -70,7 +80,7 @@ export const SideMenu = () => {
             </ListItemIcon>
             <ListItemText
               primary={'Hombres'}
-              onClick={() => nagifateTo('/category/men')}
+              onClick={() => navigateTo('/category/men')}
             />
           </ListItem>
 
@@ -80,7 +90,7 @@ export const SideMenu = () => {
             </ListItemIcon>
             <ListItemText
               primary={'Mujeres'}
-              onClick={() => nagifateTo('/category/women')}
+              onClick={() => navigateTo('/category/women')}
             />
           </ListItem>
 
@@ -90,7 +100,7 @@ export const SideMenu = () => {
             </ListItemIcon>
             <ListItemText
               primary={'Niños'}
-              onClick={() => nagifateTo('/category/kid')}
+              onClick={() => navigateTo('/category/kid')}
             />
           </ListItem>
 
