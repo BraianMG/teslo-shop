@@ -2,7 +2,6 @@ import React, { FC, useEffect, useReducer } from 'react'
 import { ICartProduct } from '../../interfaces'
 import { CartContext, cartReducer } from './'
 import Cookie from 'js-cookie'
-import { OrderSummary } from '../../components/cart/OrderSummary'
 
 export interface CartState {
   cart: ICartProduct[]
@@ -45,7 +44,7 @@ export const CartProvider: FC<Props> = ({ children }) => {
   }, [])
 
   useEffect(() => {
-    if (state.cart.length > 0) Cookie.set('cart', JSON.stringify(state.cart))
+    Cookie.set('cart', JSON.stringify(state.cart))
   }, [state.cart])
 
   useEffect(() => {
