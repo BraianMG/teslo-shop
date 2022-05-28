@@ -11,20 +11,26 @@ import {
 import { ItemCounter } from '../ui'
 import { FC, useContext } from 'react'
 import { CartContext } from '../../context'
+import { ICartProduct } from '../../interfaces'
 
 interface Props {
   editable?: boolean
 }
 
 export const CartList: FC<Props> = ({ editable = false }) => {
-  const { cart } = useContext(CartContext)
+  const { cart, updateCartQuantity } = useContext(CartContext)
+
+  const onNewCartQuantityValue = (product: ICartProduct, newQuantityValue: number) => {
+    product.quantity = newQuantityValue
+    updateCartQuantity(product)
+  }
   return (
     <>
       {cart.map((product) => (
-        <Grid container spacing={2} key={product.slug} sx={{ mb: 1 }}>
+        <Grid container spacing={2} key={product.slug + product.size} sx={{ mb: 1 }}>
           <Grid item xs={3}>
             {/* TODO: Llevar a la página del producto */}
-            <NextLink href="/product/slug" passHref>
+            <NextLink href={`/product/${product.slug}`} passHref>
               <Link>
                 <CardActionArea>
                   <CardMedia
@@ -40,13 +46,13 @@ export const CartList: FC<Props> = ({ editable = false }) => {
             <Box display="flex" flexDirection="column">
               <Typography variant="body1">{product.title}</Typography>
               <Typography variant="body1">
-                Talla: <strong>M</strong>
+                Talla: <strong>{product.size}</strong>
               </Typography>
               {editable ? (
                 <ItemCounter
                   currentValue={product.quantity}
                   maxValue={10}
-                  updateQuantity={() => {}}
+                  updateQuantity={(newValue) => onNewCartQuantityValue(product, newValue)}
                 />
               ) : (
                 <Typography variant="h5">
