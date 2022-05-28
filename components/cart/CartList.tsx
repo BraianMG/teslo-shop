@@ -18,16 +18,26 @@ interface Props {
 }
 
 export const CartList: FC<Props> = ({ editable = false }) => {
-  const { cart, updateCartQuantity } = useContext(CartContext)
+  const { cart, updateCartQuantity, removeCartProduct } =
+    useContext(CartContext)
 
-  const onNewCartQuantityValue = (product: ICartProduct, newQuantityValue: number) => {
+  const onNewCartQuantityValue = (
+    product: ICartProduct,
+    newQuantityValue: number
+  ) => {
     product.quantity = newQuantityValue
     updateCartQuantity(product)
   }
+
   return (
     <>
       {cart.map((product) => (
-        <Grid container spacing={2} key={product.slug + product.size} sx={{ mb: 1 }}>
+        <Grid
+          container
+          spacing={2}
+          key={product.slug + product.size}
+          sx={{ mb: 1 }}
+        >
           <Grid item xs={3}>
             {/* TODO: Llevar a la página del producto */}
             <NextLink href={`/product/${product.slug}`} passHref>
@@ -52,7 +62,9 @@ export const CartList: FC<Props> = ({ editable = false }) => {
                 <ItemCounter
                   currentValue={product.quantity}
                   maxValue={10}
-                  updateQuantity={(newValue) => onNewCartQuantityValue(product, newValue)}
+                  updateQuantity={(newValue) =>
+                    onNewCartQuantityValue(product, newValue)
+                  }
                 />
               ) : (
                 <Typography variant="h5">
@@ -71,7 +83,11 @@ export const CartList: FC<Props> = ({ editable = false }) => {
           >
             <Typography variant="subtitle1">${product.price}</Typography>
             {editable && (
-              <Button variant="text" color="secondary">
+              <Button
+                variant="text"
+                color="secondary"
+                onClick={() => removeCartProduct(product)}
+              >
                 Remover
               </Button>
             )}
