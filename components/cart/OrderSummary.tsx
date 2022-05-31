@@ -1,7 +1,7 @@
 import { Grid, Typography } from '@mui/material'
 import { useContext } from 'react'
 import { CartContext } from '../../context'
-import { currency } from '../../utils/intex'
+import { currency } from '../../utils'
 
 export const OrderSummary = () => {
   const { orderSummary } = useContext(CartContext)
