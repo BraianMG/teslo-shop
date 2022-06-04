@@ -38,7 +38,6 @@ const RegisterPage = () => {
         password,
       })
       const { token, user } = data
-      console.log({ token, user })
     } catch (error) {
       console.log('Error en las credenciales')
       setShowError(true)

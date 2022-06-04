@@ -33,7 +33,6 @@ const LoginPage = () => {
     try {
       const { data } = await tesloApi.post('/user/login', { email, password })
       const { token, user } = data
-      console.log({ token, user })
     } catch (error) {
       console.log('Error en las credenciales')
       setShowError(true)
