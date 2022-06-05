@@ -1,3 +1,4 @@
+import axios, { AxiosError } from 'axios'
 import Cookies from 'js-cookie'
 import React, { FC, useReducer } from 'react'
 import { tesloApi } from '../../api'
@@ -36,7 +37,42 @@ export const AuthProvider: FC<Props> = ({ children }) => {
     }
   }
 
+  const registerUser = async (
+    name: string,
+    email: string,
+    password: string
+  ): Promise<{ hasError: boolean; message?: string }> => {
+    try {
+      const { data } = await tesloApi.post('/user/register', {
+        name,
+        email,
+        password,
+      })
+      const { token, user } = data
+      Cookies.set('token', token)
+      dispatch({ type: '[Auth] - Login', payload: user })
+      return {
+        hasError: false,
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const message = (error.response?.data as AxiosError).message
+        return {
+          hasError: true,
+          message,
+        }
+      }
+
+      return {
+        hasError: true,
+        message: 'No se pudo crear el usuario - intente de nuevo',
+      }
+    }
+  }
+
   return (
-    <AuthContext.Provider value={{ ...state, logginUser }}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={{ ...state, logginUser, registerUser }}>
+      {children}
+    </AuthContext.Provider>
   )
 }
