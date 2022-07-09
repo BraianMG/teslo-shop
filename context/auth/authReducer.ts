@@ -3,7 +3,7 @@ import { AuthState } from './'
 
 type AuthActionType =
   | { type: '[Auth] - Login'; payload: IUser }
-  | { type: '[Auth] - Loguot' }
+  | { type: '[Auth] - Logout' }
 
 export const authReducer = (
   state: AuthState,
@@ -17,7 +17,7 @@ export const authReducer = (
         user: action.payload,
       }
 
-    case '[Auth] - Loguot':
+    case '[Auth] - Logout':
       return {
         ...state,
         isLoggedIn: false,

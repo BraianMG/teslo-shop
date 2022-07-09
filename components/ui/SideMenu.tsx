@@ -27,7 +27,7 @@ import { CategoryPanel } from './CategoryPanel'
 export const SideMenu = () => {
   const router = useRouter()
   const { isMenuOpen, toggleSideMenu } = useContext(UiContext)
-  const { user, isLoggedIn } = useContext(AuthContext)
+  const { user, isLoggedIn, logout } = useContext(AuthContext)
   const [searchTerm, setSearchTerm] = useState('')
 
   const navigateTo = (url: string) => {
@@ -101,14 +101,17 @@ export const SideMenu = () => {
               <ListItemIcon>
                 <LoginOutlined />
               </ListItemIcon>
-              <ListItemText primary={'Salir'} />
+              <ListItemText primary={'Salir'} onClick={logout} />
             </ListItem>
           ) : (
             <ListItem button>
               <ListItemIcon>
                 <VpnKeyOutlined />
               </ListItemIcon>
-              <ListItemText primary={'Ingresar'} />
+              <ListItemText
+                primary={'Ingresar'}
+                onClick={() => navigateTo(`/auth/login?p=${router.asPath}`)}
+              />
             </ListItem>
           )}
         </List>

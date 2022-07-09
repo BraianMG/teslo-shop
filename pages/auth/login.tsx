@@ -12,7 +12,6 @@ import {
 import { useForm } from 'react-hook-form'
 import { AuthLayout } from '../../components/layouts'
 import { validations } from '../../utils'
-import { tesloApi } from '../../api'
 import { ErrorOutline } from '@mui/icons-material'
 import { AuthContext } from '../../context'
 import { useRouter } from 'next/router'
@@ -42,8 +41,8 @@ const LoginPage = () => {
       return
     }
 
-    // TODO: navegar a la pantalla en la que estaba el usuario
-    router.replace('/')
+    const destination = router.query.p?.toString() || '/'
+    router.replace(destination)
   }
 
   return (
