@@ -4,6 +4,7 @@ import { CartContext, cartReducer } from './'
 import Cookie from 'js-cookie'
 
 export interface CartState {
+  isLoaded: boolean
   cart: ICartProduct[]
   orderSummary: {
     numberOfItems: number
@@ -14,6 +15,7 @@ export interface CartState {
 }
 
 const CART_INITIAL_STATE: CartState = {
+  isLoaded: false,
   cart: [],
   orderSummary: { numberOfItems: 0, subTotal: 0, tax: 0, total: 0 },
 }

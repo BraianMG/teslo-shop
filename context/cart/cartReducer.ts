@@ -1,3 +1,4 @@
+import { truncateSync } from 'fs'
 import { ICartProduct } from '../../interfaces'
 import { CartState } from './'
 
@@ -27,6 +28,7 @@ export const cartReducer = (
     case '[Cart] - LoadCart from cookies | storage':
       return {
         ...state,
+        isLoaded: true,
         cart: [...action.payload],
       }
 
