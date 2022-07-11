@@ -1,3 +1,4 @@
+import { GetServerSideProps } from 'next'
 import {
   Box,
   Button,
@@ -10,6 +11,7 @@ import {
   Typography,
 } from '@mui/material'
 import { ShopLayout } from '../../components/layouts'
+import { jwt } from '../../utils'
 
 const AddressPage = () => {
   return (
@@ -51,13 +53,9 @@ const AddressPage = () => {
         </Grid>
 
         <Grid item xs={12} sm={6}>
-          <FormControl variant='filled' fullWidth>
+          <FormControl variant="filled" fullWidth>
             <InputLabel>País</InputLabel>
-            <Select
-              variant="filled"
-              label="País"
-              value={1}
-            >
+            <Select variant="filled" label="País" value={1}>
               <MenuItem value={1}>Argentina</MenuItem>
               <MenuItem value={2}>Bolivia</MenuItem>
               <MenuItem value={3}>Brasil</MenuItem>
@@ -79,6 +77,31 @@ const AddressPage = () => {
       </Box>
     </ShopLayout>
   )
+}
+
+// Lo siguiente es en caso de no disponer de los Middlewares que introdujo Next en su versión 12
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+  const { token = '' } = req.cookies
+  let isValidToken = false
+
+  try {
+    await jwt.isValidToken(token)
+    isValidToken = true
+  } catch (error) {
+    isValidToken = false
+  }
+
+  if (!isValidToken)
+    return {
+      redirect: {
+        destination: '/auth/login?p=/checkout/address',
+        permanent: false,
+      },
+    }
+
+  return {
+    props: {},
+  }
 }
 
 export default AddressPage
