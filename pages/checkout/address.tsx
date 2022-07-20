@@ -11,7 +11,7 @@ import {
   Typography,
 } from '@mui/material'
 import { ShopLayout } from '../../components/layouts'
-import { jwt } from '../../utils'
+// import { jwt } from '../../utils'
 
 const AddressPage = () => {
   return (
@@ -80,28 +80,30 @@ const AddressPage = () => {
 }
 
 // Lo siguiente es en caso de no disponer de los Middlewares que introdujo Next en su versión 12
-export const getServerSideProps: GetServerSideProps = async ({ req }) => {
-  const { token = '' } = req.cookies
-  let isValidToken = false
+// export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+//   const { token = '' } = req.cookies
+//   let isValidToken = false
 
-  try {
-    await jwt.isValidToken(token)
-    isValidToken = true
-  } catch (error) {
-    isValidToken = false
-  }
+//   try {
+//     await jwt.isValidToken(token)
+//     isValidToken = true
+//   } catch (error) {
+//     isValidToken = false
+//   }
 
-  if (!isValidToken)
-    return {
-      redirect: {
-        destination: '/auth/login?p=/checkout/address',
-        permanent: false,
-      },
-    }
+//   if (!isValidToken)
+//     return {
+//       redirect: {
+//         destination: '/auth/login?p=/checkout/address',
+//         permanent: false,
+//       },
+//     }
 
-  return {
-    props: {},
-  }
-}
+//   return {
+//     props: {},
+//   }
+// }
 
 export default AddressPage
+
+
