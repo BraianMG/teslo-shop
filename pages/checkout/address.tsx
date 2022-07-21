@@ -17,7 +17,7 @@ import { useForm } from 'react-hook-form'
 import { ShopLayout } from '../../components/layouts'
 import { countries } from '../../utils'
 // import { jwt } from '../../utils'
-import { useContext } from 'react';
+import { useContext } from 'react'
 import { CartContext } from '../../context'
 
 type FormData = {
@@ -143,7 +143,7 @@ const AddressPage = () => {
                 select
                 variant="filled"
                 label="País"
-                defaultValue={countries[0].code}
+                defaultValue={Cookies.get('country') || countries[0].code}
                 {...register('country', {
                   required: 'Este campo es requerido',
                 })}

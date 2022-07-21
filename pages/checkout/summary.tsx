@@ -11,8 +11,23 @@ import {
 } from '@mui/material'
 import { CartList, OrderSummary } from '../../components/cart'
 import { ShopLayout } from '../../components/layouts'
+import { CartContext } from '../../context'
+import { useContext } from 'react'
+import { countries } from '../../utils'
 
 const SummaryPage = () => {
+  const {
+    shippingAddress,
+    orderSummary: { numberOfItems },
+  } = useContext(CartContext)
+
+  if (!shippingAddress) {
+    return <></>
+  }
+
+  const { firstName, lastName, address, address2, city, zip, country, phone } =
+    shippingAddress
+
   return (
     <ShopLayout title="Resumen de orden" pageDescription="Resumen de la orden">
       <Typography variant="h1" component="h1">
@@ -25,7 +40,10 @@ const SummaryPage = () => {
         <Grid item xs={12} sm={5}>
           <Card className="summary-card">
             <CardContent>
-              <Typography variant="h2">Resumen (3 productos)</Typography>
+              <Typography variant="h2">
+                Resumen ({numberOfItems}{' '}
+                {numberOfItems === 1 ? 'producto' : 'productos'})
+              </Typography>
 
               <Divider sx={{ my: 1 }} />
 
@@ -40,11 +58,18 @@ const SummaryPage = () => {
                 </NextLink>
               </Box>
 
-              <Typography>Braian Gonzales</Typography>
-              <Typography>Calle falsa 123</Typography>
-              <Typography>Mendoza, 5500</Typography>
-              <Typography>Argentina</Typography>
-              <Typography>+54 9 012 345-6789</Typography>
+              <Typography>{`${firstName} ${lastName}`}</Typography>
+              <Typography>
+                {address}
+                {address2 ? `, ${address2}` : ''}
+              </Typography>
+              <Typography>
+                {city}, {zip}
+              </Typography>
+              <Typography>
+                {countries.find((el) => el.code === country)?.name}
+              </Typography>
+              <Typography>{phone}</Typography>
 
               <Divider sx={{ my: 1 }} />
 
@@ -60,7 +85,7 @@ const SummaryPage = () => {
               <OrderSummary />
 
               <Box sx={{ mt: 3 }}>
-                <Button color="secondary" className="circular-btn" fullWidth>
+                <Button color="primary" className="circular-btn" fullWidth>
                   Confirmar Orden
                 </Button>
               </Box>
