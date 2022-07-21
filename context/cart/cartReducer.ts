@@ -1,6 +1,7 @@
 import { truncateSync } from 'fs'
 import { ICartProduct } from '../../interfaces'
 import { CartState } from './'
+import { ShippingAddress } from './'
 
 type CartActionType =
   | {
@@ -19,6 +20,7 @@ type CartActionType =
         total: number
       }
     }
+  | { type: '[Cart] - LoadAddress from Cookie'; payload: ShippingAddress }
 
 export const cartReducer = (
   state: CartState,
@@ -65,6 +67,12 @@ export const cartReducer = (
       return {
         ...state,
         orderSummary: action.payload,
+      }
+    
+    case '[Cart] - LoadAddress from Cookie':
+      return {
+        ...state,
+        shippingAddress: action.payload
       }
 
     default:
