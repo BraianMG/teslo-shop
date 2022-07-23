@@ -76,10 +76,9 @@ export const SideMenu = () => {
 
           {/* Perfil */}
           <Divider />
-          <ListSubheader>Perfil</ListSubheader>
-
-          {isLoggedIn && (
+          {isLoggedIn ? (
             <>
+              <ListSubheader>Perfil</ListSubheader>
               <ListItem button>
                 <ListItemIcon>
                   <AccountCircleOutlined />
@@ -93,16 +92,13 @@ export const SideMenu = () => {
                 </ListItemIcon>
                 <ListItemText primary={'Mis Ordenes'} />
               </ListItem>
+              <ListItem button>
+                <ListItemIcon>
+                  <LoginOutlined />
+                </ListItemIcon>
+                <ListItemText primary={'Salir'} onClick={logout} />
+              </ListItem>
             </>
-          )}
-
-          {isLoggedIn ? (
-            <ListItem button>
-              <ListItemIcon>
-                <LoginOutlined />
-              </ListItemIcon>
-              <ListItemText primary={'Salir'} onClick={logout} />
-            </ListItem>
           ) : (
             <ListItem button>
               <ListItemIcon>
