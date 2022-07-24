@@ -20,7 +20,7 @@ export default NextAuth({
       },
       async authorize(credentials) {
         console.log({ credentials })
-        // TODO: validar contra base de datos
+        // TODO: validar contra DB
         return { name: 'Braian', correo: 'admin@admin.com', role: 'admin' }
       },
     }),
@@ -32,6 +32,25 @@ export default NextAuth({
 
   // Callbacks
   callbacks: {
-    
-  }
+    async jwt({ token, account, user }) {
+      if (account) {
+        token.accessToken = account.access_token
+        switch (account.type) {
+          case 'credentials':
+            token.user = user
+            break
+          case 'oauth':
+            // TODO: crear usuario o verificar si existe en mi DB
+            break
+        }
+      }
+      return token
+    },
+    async session({ session, token, user }) {
+      session.accessToken = token.accessToken
+      session.user = token.user as any
+
+      return session
+    },
+  },
 })
