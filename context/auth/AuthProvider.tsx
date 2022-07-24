@@ -1,4 +1,4 @@
-import { useSession } from 'next-auth/react'
+import { useSession, signOut } from 'next-auth/react'
 import axios, { AxiosError } from 'axios'
 import Cookies from 'js-cookie'
 import { useRouter } from 'next/router'
@@ -28,11 +28,11 @@ export const AuthProvider: FC<Props> = ({ children }) => {
 
   useEffect(() => {
     if (status === 'authenticated') {
-      console.log({user: data.user})
-      // TODO: dispatch({type:'[Auth] - Login', payload: data.user as IUser})
+      console.log({ user: data.user })
+      dispatch({ type: '[Auth] - Login', payload: data.user as IUser })
     }
   }, [status, data])
-  
+
   // Autenticación personalizada
   // useEffect(() => {
   //   checkToken()
@@ -100,7 +100,6 @@ export const AuthProvider: FC<Props> = ({ children }) => {
   }
 
   const logout = () => {
-    Cookies.remove('token')
     Cookies.remove('cart')
     Cookies.remove('firstName')
     Cookies.remove('lastName')
@@ -110,8 +109,11 @@ export const AuthProvider: FC<Props> = ({ children }) => {
     Cookies.remove('city')
     Cookies.remove('country')
     Cookies.remove('phone')
-
-    router.reload()
+    signOut()
+    
+    // Auth personalizado
+    // Cookies.remove('token')
+    // router.reload()
   }
 
   return (
