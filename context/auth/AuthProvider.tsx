@@ -1,3 +1,4 @@
+import { useSession } from 'next-auth/react'
 import axios, { AxiosError } from 'axios'
 import Cookies from 'js-cookie'
 import { useRouter } from 'next/router'
@@ -21,12 +22,21 @@ interface Props {
 }
 
 export const AuthProvider: FC<Props> = ({ children }) => {
-  const router = useRouter()
   const [state, dispatch] = useReducer(authReducer, AUTH_INITIAL_STATE)
+  const router = useRouter()
+  const { data, status } = useSession()
 
   useEffect(() => {
-    checkToken()
-  }, [])
+    if (status === 'authenticated') {
+      console.log({user: data.user})
+      // TODO: dispatch({type:'[Auth] - Login', payload: data.user as IUser})
+    }
+  }, [status, data])
+  
+  // Autenticación personalizada
+  // useEffect(() => {
+  //   checkToken()
+  // }, [])
 
   const checkToken = async () => {
     if (!Cookies.get('token')) return
