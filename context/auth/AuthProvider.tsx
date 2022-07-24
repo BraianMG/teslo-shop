@@ -33,7 +33,7 @@ export const AuthProvider: FC<Props> = ({ children }) => {
     }
   }, [status, data])
 
-  // Autenticación personalizada
+  // Auth personalizado
   // useEffect(() => {
   //   checkToken()
   // }, [])
