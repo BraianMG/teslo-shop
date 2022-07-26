@@ -1,10 +1,11 @@
-import { useContext, useState } from 'react'
+import { useEffect, useState } from 'react'
 import NextLink from 'next/link'
 import { GetServerSideProps } from 'next'
 import {
   Box,
   Button,
   Chip,
+  Divider,
   Grid,
   Link,
   TextField,
@@ -14,9 +15,10 @@ import { useForm } from 'react-hook-form'
 import { AuthLayout } from '../../components/layouts'
 import { validations } from '../../utils'
 import { ErrorOutline } from '@mui/icons-material'
-import { AuthContext } from '../../context'
+// import { AuthContext } from '../../context'
 import { useRouter } from 'next/router'
-import { getSession, signIn } from 'next-auth/react'
+import { getSession, signIn, getProviders } from 'next-auth/react'
+import { AppProvider } from 'next-auth/providers'
 
 type FormData = {
   email: string
@@ -25,13 +27,21 @@ type FormData = {
 
 const LoginPage = () => {
   const router = useRouter()
-  const { logginUser } = useContext(AuthContext)
+  // Auth personalizado
+  // const { logginUser } = useContext(AuthContext)
   const [showError, setShowError] = useState(false)
+  const [providers, setProviders] = useState<any>({})
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<FormData>()
+
+  useEffect(() => {
+    getProviders().then((prov) => {
+      setProviders(prov)
+    })
+  }, [])
 
   const onLoginUser = async ({ email, password }: FormData) => {
     setShowError(false)
@@ -123,6 +133,33 @@ const LoginPage = () => {
                 <Link underline="always">¿No tienes cuenta?</Link>
               </NextLink>
             </Grid>
+
+            <Grid
+              item
+              xs={12}
+              display="flex"
+              flexDirection="column"
+              justifyContent="end"
+            >
+              <Divider sx={{ width: '100%', mb: 2 }} />
+              {Object.values(providers).map((prov: any) => {
+                if (prov.id === 'credentials')
+                  return <div key="credentials"></div>
+
+                return (
+                  <Button
+                    key={prov.id}
+                    variant="outlined"
+                    fullWidth
+                    color="primary"
+                    sx={{ mb: 1 }}
+                    onClick={() => signIn(prov.id)}
+                  >
+                    {prov.name}
+                  </Button>
+                )
+              })}
+            </Grid>
           </Grid>
         </Box>
       </form>
@@ -130,7 +167,10 @@ const LoginPage = () => {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ req, query }) => {
+export const getServerSideProps: GetServerSideProps = async ({
+  req,
+  query,
+}) => {
   const session = await getSession({ req })
 
   const { p = '/' } = query
