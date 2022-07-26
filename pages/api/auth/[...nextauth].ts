@@ -40,6 +40,12 @@ export default NextAuth({
     newUser: '/auth/register',
   },
 
+  session: {
+    maxAge: 2592000, // 30d
+    strategy: 'jwt',
+    updateAge: 86400, // cada día
+  },
+
   // Callbacks
   callbacks: {
     async jwt({ token, account, user }) {
