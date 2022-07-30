@@ -1,7 +1,8 @@
 import React, { FC, useEffect, useReducer } from 'react'
-import { ICartProduct, ShippingAddress } from '../../interfaces'
+import { ICartProduct, IOrder, ShippingAddress } from '../../interfaces'
 import { CartContext, cartReducer } from './'
 import Cookie from 'js-cookie'
+import { tesloApi } from '../../api'
 
 export interface CartState {
   isLoaded: boolean
@@ -132,6 +133,27 @@ export const CartProvider: FC<Props> = ({ children }) => {
     dispatch({ type: '[Cart] - Updated Address', payload: address })
   }
 
+  const createOrder = async () => {
+    if (!state.shippingAddress) throw new Error('No hay dirección de entrega')
+
+    const body: IOrder = {
+      orderItems: state.cart.map((product) => ({
+        ...product,
+        size: product.size!,
+      })),
+      shippingAddress: state.shippingAddress,
+      orderSummary: state.orderSummary,
+      isPaid: false,
+    }
+
+    try {
+      const { data } = await tesloApi.post('/orders', body)
+      console.log(data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <CartContext.Provider
       value={{
@@ -140,6 +162,7 @@ export const CartProvider: FC<Props> = ({ children }) => {
         updateCartQuantity,
         removeCartProduct,
         updateAddress,
+        createOrder,
       }}
     >
       {children}
