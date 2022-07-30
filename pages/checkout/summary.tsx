@@ -12,14 +12,23 @@ import {
 import { CartList, OrderSummary } from '../../components/cart'
 import { ShopLayout } from '../../components/layouts'
 import { CartContext } from '../../context'
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { countries } from '../../utils'
+import Cookies from 'js-cookie'
+import { useRouter } from 'next/router'
 
 const SummaryPage = () => {
+  const router = useRouter()
   const {
     shippingAddress,
     orderSummary: { numberOfItems },
   } = useContext(CartContext)
+
+  useEffect(() => {
+    if (!Cookies.get('firstName')) {
+      router.push('/checkout/address')
+    }
+  }, [router])
 
   if (!shippingAddress) {
     return <></>
@@ -66,9 +75,10 @@ const SummaryPage = () => {
               <Typography>
                 {city}, {zip}
               </Typography>
-              <Typography>
+              {/* <Typography>
                 {countries.find((el) => el.code === country)?.name}
-              </Typography>
+              </Typography> */}
+              <Typography>{country}</Typography>
               <Typography>{phone}</Typography>
 
               <Divider sx={{ my: 1 }} />
