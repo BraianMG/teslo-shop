@@ -9,9 +9,13 @@ import {
   ListItemText,
   ListSubheader,
 } from '@mui/material'
-import React from 'react'
+import React, { FC } from 'react'
 
-export const AdminPanel = () => {
+interface Props {
+  navigateTo: (url: string) => void
+}
+
+export const AdminPanel: FC<Props> = ({ navigateTo }) => {
   return (
     <>
       <ListSubheader>Admin Panel</ListSubheader>
@@ -22,7 +26,7 @@ export const AdminPanel = () => {
         </ListItemIcon>
         <ListItemText primary={'Productos'} />
       </ListItem>
-      <ListItem button>
+      <ListItem button onClick={() => navigateTo('/orders/history')}>
         <ListItemIcon>
           <ConfirmationNumberOutlined />
         </ListItemIcon>

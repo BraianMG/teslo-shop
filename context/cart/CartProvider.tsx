@@ -153,7 +153,7 @@ export const CartProvider: FC<Props> = ({ children }) => {
     try {
       const { data } = await tesloApi.post<IOrder>('/orders', body)
 
-      // TODO: Dispatch
+      dispatch({ type: '[Cart] - Order complete' })
 
       return {
         hasError: false,

@@ -72,7 +72,7 @@ export const SideMenu = () => {
           <CategoryPanel navigateTo={navigateTo} />
 
           {/* Admin */}
-          {user?.role === 'admin' && <AdminPanel />}
+          {user?.role === 'admin' && <AdminPanel navigateTo={navigateTo} />}
 
           {/* Perfil */}
           <Divider />
