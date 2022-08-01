@@ -1,4 +1,3 @@
-import NextLink from 'next/link'
 import { GetServerSideProps, NextPage } from 'next'
 import {
   Box,
@@ -7,7 +6,6 @@ import {
   Chip,
   Divider,
   Grid,
-  Link,
   Typography,
 } from '@mui/material'
 import { CartList, OrderSummary } from '../../components/cart'
@@ -21,40 +19,47 @@ interface Props {
   order: IOrder
 }
 
-const OrderPage: NextPage<Props> = ({order}) => {
-  console.log(order)
+const OrderPage: NextPage<Props> = ({ order }) => {
+  const { _id, isPaid, orderSummary, shippingAddress, orderItems } = order
+
   return (
     <ShopLayout
-      title="Resumen de la orden ABC123"
+      title="Resumen de la orden"
       pageDescription="Resumen de la orden"
     >
       <Typography variant="h1" component="h1">
-        Orden: ABC123
+        Orden: {_id}
       </Typography>
 
-      {/* <Chip
-        sx={{ my: 2 }}
-        label="Pendiente de pago"
-        variant="outlined"
-        color="error"
-        icon={<CreditCardOffOutlined />}
-      /> */}
-      <Chip
-        sx={{ my: 2 }}
-        label="La orden ya fue pagada"
-        variant="outlined"
-        color="success"
-        icon={<CreditScoreOutlined />}
-      />
+      {isPaid ? (
+        <Chip
+          sx={{ my: 2 }}
+          label="La orden ya fue pagada"
+          variant="outlined"
+          color="success"
+          icon={<CreditScoreOutlined />}
+        />
+      ) : (
+        <Chip
+          sx={{ my: 2 }}
+          label="Pendiente de pago"
+          variant="outlined"
+          color="error"
+          icon={<CreditCardOffOutlined />}
+        />
+      )}
 
       <Grid container>
         <Grid item xs={12} sm={7}>
-          <CartList />
+          <CartList products={orderItems} />
         </Grid>
         <Grid item xs={12} sm={5}>
           <Card className="summary-card">
             <CardContent>
-              <Typography variant="h2">Resumen (3 productos)</Typography>
+              <Typography variant="h2">
+                Resumen ({orderSummary.numberOfItems}{' '}
+                {orderSummary.numberOfItems > 1 ? 'productos' : 'producto'})
+              </Typography>
 
               <Divider sx={{ my: 1 }} />
 
@@ -62,43 +67,44 @@ const OrderPage: NextPage<Props> = ({order}) => {
                 <Typography variant="subtitle1">
                   Dirección de entrega
                 </Typography>
-                <NextLink href="/checkout/address" passHref>
-                  <Link underline="always">
-                    <strong>Editar</strong>
-                  </Link>
-                </NextLink>
               </Box>
 
-              <Typography>Braian Gonzales</Typography>
-              <Typography>Calle falsa 123</Typography>
-              <Typography>Mendoza, 5500</Typography>
-              <Typography>Argentina</Typography>
-              <Typography>+54 9 012 345-6789</Typography>
+              <Typography>
+                {shippingAddress.firstName} {shippingAddress.lastName}
+              </Typography>
+              <Typography>
+                {shippingAddress.address}
+                {shippingAddress.address2
+                  ? `, ${shippingAddress.address2}`
+                  : ''}
+              </Typography>
+              <Typography>
+                {shippingAddress.city}, {shippingAddress.zip}
+              </Typography>
+              <Typography>{shippingAddress.country}</Typography>
+              <Typography>{shippingAddress.phone}</Typography>
 
               <Divider sx={{ my: 1 }} />
 
               <Box display="flex" justifyContent="space-between">
                 <Typography variant="subtitle1">Orden</Typography>
-                <NextLink href="/cart" passHref>
-                  <Link underline="always">
-                    <strong>Editar</strong>
-                  </Link>
-                </NextLink>
               </Box>
 
-              <OrderSummary />
+              <OrderSummary orderValues={orderSummary} />
 
-              <Box sx={{ mt: 3 }}>
-                {/* TODO */}
-                <h1>Pagar</h1>
-
-                <Chip
-                  sx={{ my: 2 }}
-                  label="La orden ya fue pagada"
-                  variant="outlined"
-                  color="success"
-                  icon={<CreditScoreOutlined />}
-                />
+              <Box sx={{ mt: 3 }} display="flex" flexDirection="column">
+                {isPaid ? (
+                  <Chip
+                    sx={{ my: 2 }}
+                    label="La orden ya fue pagada"
+                    variant="outlined"
+                    color="success"
+                    icon={<CreditScoreOutlined />}
+                  />
+                ) : (
+                  //  TODO
+                  <h1>Pagar</h1>
+                )}
               </Box>
             </CardContent>
           </Card>
