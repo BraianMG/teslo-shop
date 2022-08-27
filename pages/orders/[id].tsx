@@ -109,7 +109,7 @@ const OrderPage: NextPage<Props> = ({ order }) => {
                         purchase_units: [
                           {
                             amount: {
-                              value: '100.19',
+                              value: orderSummary.total.toString(),
                             },
                           },
                         ],
@@ -119,7 +119,6 @@ const OrderPage: NextPage<Props> = ({ order }) => {
                       return actions.order!.capture().then((details) => {
                         console.log({details})
                         const name = details.payer.name?.given_name
-                        alert(`Transaction completed by ${name}`)
                       })
                     }}
                   />
