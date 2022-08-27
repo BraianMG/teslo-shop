@@ -98,6 +98,8 @@ const payOrder = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   dbOrder.isPaid = true
   await dbOrder.save()
 
+  // TODO: disparar notificaciones al usuario y al vendedor
+
   await db.disconnect()
 
   return res.status(200).json({ message: 'Orden pagada' })
