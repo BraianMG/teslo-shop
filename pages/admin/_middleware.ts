@@ -13,7 +13,7 @@ export async function middleware(req: NextRequest, ev: NextFetchEvent) {
     return NextResponse.redirect(`${origin}/auth/login?p=${requestPage}`)
   }
 
-  const validRoles = ['admin', 'super-user']
+  const validRoles = ['admin', 'client', 'super-user']
   if (!validRoles.includes(session.user.role)) return NextResponse.redirect(origin)
 
   return NextResponse.next()
