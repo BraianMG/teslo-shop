@@ -4,6 +4,7 @@ import {
   CancelPresentationOutlined,
   CategoryOutlined,
   CreditCardOffOutlined,
+  CreditCardOutlined,
   DashboardOutlined,
   GroupOutlined,
   ProductionQuantityLimitsOutlined,
@@ -62,7 +63,7 @@ const DashboardPage = () => {
         <SummaryTile
           title={numberOfOrders}
           subTitle="Ordenes totales"
-          icon={<CreditCardOffOutlined color="primary" sx={{ fontSize: 40 }} />}
+          icon={<CreditCardOutlined color="secondary" sx={{ fontSize: 40 }} />}
         />
 
         <SummaryTile
