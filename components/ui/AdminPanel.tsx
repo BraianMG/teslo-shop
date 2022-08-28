@@ -2,6 +2,7 @@ import {
   AdminPanelSettings,
   CategoryOutlined,
   ConfirmationNumberOutlined,
+  DashboardOutlined,
 } from '@mui/icons-material'
 import {
   ListItem,
@@ -20,6 +21,12 @@ export const AdminPanel: FC<Props> = ({ navigateTo }) => {
     <>
       <ListSubheader>Admin Panel</ListSubheader>
 
+      <ListItem button onClick={() => navigateTo('/admin')}>
+        <ListItemIcon>
+          <DashboardOutlined />
+        </ListItemIcon>
+        <ListItemText primary={'Dashboard'}  />
+      </ListItem>
       <ListItem button>
         <ListItemIcon>
           <CategoryOutlined />
