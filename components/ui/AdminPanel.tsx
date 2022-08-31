@@ -33,7 +33,7 @@ export const AdminPanel: FC<Props> = ({ navigateTo }) => {
         </ListItemIcon>
         <ListItemText primary={'Productos'} />
       </ListItem>
-      <ListItem button onClick={() => navigateTo('/orders/history')}>
+      <ListItem button onClick={() => navigateTo('/admin/orders')}>
         <ListItemIcon>
           <ConfirmationNumberOutlined />
         </ListItemIcon>
