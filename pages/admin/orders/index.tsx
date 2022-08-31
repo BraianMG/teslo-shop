@@ -3,8 +3,8 @@ import { Chip, Grid } from '@mui/material'
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid'
 import React from 'react'
 import useSWR from 'swr'
-import { AdminLayout } from '../../components/layouts'
-import { IOrder, IUser } from '../../interfaces'
+import { AdminLayout } from '../../../components/layouts'
+import { IOrder, IUser } from '../../../interfaces'
 
 const columns: GridColDef[] = [
   { field: 'id', headerName: 'Orden ID', width: 250 },
