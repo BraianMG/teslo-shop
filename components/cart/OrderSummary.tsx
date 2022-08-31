@@ -6,7 +6,7 @@ import { OrderSummary as IOrderSummary } from '../../interfaces'
 import { currency } from '../../utils'
 
 interface Props {
-  orderValues: IOrderSummary
+  orderValues?: IOrderSummary
 }
 
 export const OrderSummary: NextPage<Props> = ({ orderValues }) => {

@@ -6,7 +6,7 @@ import { NextFetchEvent, NextRequest, NextResponse } from 'next/server'
 export async function middleware(req: NextRequest, ev: NextFetchEvent) {
   const session = await getToken({req, secret: process.env.NEXTAUTH_SECRET})
 
-  console.log({session})
+  // console.log({session})
 
   if (!session) {
     const { origin } = req.nextUrl.clone()
