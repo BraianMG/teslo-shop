@@ -1,10 +1,11 @@
 import { CategoryOutlined } from '@mui/icons-material'
-import { CardMedia, Grid } from '@mui/material'
+import { CardMedia, Grid, Link } from '@mui/material'
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid'
+import NextLink from 'next/link'
 import React from 'react'
 import useSWR from 'swr'
-import { AdminLayout } from '../../components/layouts'
-import { IProduct } from '../../interfaces'
+import { AdminLayout } from '../../../components/layouts'
+import { IProduct } from '../../../interfaces'
 
 const columns: GridColDef[] = [
   {
@@ -23,7 +24,18 @@ const columns: GridColDef[] = [
       )
     },
   },
-  { field: 'title', headerName: 'Titulo', width: 250 },
+  {
+    field: 'title',
+    headerName: 'Titulo',
+    width: 250,
+    renderCell: ({ row }: GridValueGetterParams) => {
+      return (
+        <NextLink href={`/admin/products/${row.slug}`} passHref>
+          <Link underline="always">{row.title}</Link>
+        </NextLink>
+      )
+    },
+  },
   { field: 'gender', headerName: 'Género' },
   { field: 'type', headerName: 'Tipo' },
   { field: 'inStock', headerName: 'Inventario' },
