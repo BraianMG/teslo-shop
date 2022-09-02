@@ -1,5 +1,5 @@
-import { CategoryOutlined } from '@mui/icons-material'
-import { CardMedia, Grid, Link } from '@mui/material'
+import { AddOutlined, CategoryOutlined } from '@mui/icons-material'
+import { Box, Button, CardMedia, Grid, Link } from '@mui/material'
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid'
 import NextLink from 'next/link'
 import React from 'react'
@@ -66,6 +66,16 @@ const ProductsPage = () => {
       subTitle="Mantenimiento de productos"
       icon={<CategoryOutlined />}
     >
+      <Box display="flex" justifyContent="end" sx={{ mb: 2 }}>
+        <Button
+          startIcon={<AddOutlined />}
+          color="secondary"
+          href="/admin/products/new"
+        >
+          Crear producto
+        </Button>
+      </Box>
+
       <Grid container className="fadeIn">
         <Grid item xs={12} sx={{ height: 650, width: '100%' }}>
           <DataGrid

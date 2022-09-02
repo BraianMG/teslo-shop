@@ -23,7 +23,7 @@ export default function handler(
       return updateProduct(req, res)
 
     case 'POST':
-      return res.status(400).json({ message: 'Bad request' })
+      return createProduct(req, res)
 
     default:
       return res.status(400).json({ message: 'Bad request' })
@@ -68,6 +68,40 @@ const updateProduct = async (
     await db.disconnect()
 
     return res.status(200).json(product)
+  } catch (error) {
+    console.log(error)
+    await db.disconnect()
+    return res.status(400).json({ message: 'Revisar la consola del servidor' })
+  }
+}
+const createProduct = async (
+  req: NextApiRequest,
+  res: NextApiResponse<Data>
+) => {
+  const { images = [], slug } = req.body as IProduct
+
+  if (images.length < 2)
+    return res
+      .status(400)
+      .json({ message: 'El producto necesita al menos 2 imágenes' })
+
+  // TODO: posiblemente tendremos un localhost:3000/products/asdasd.jpg
+
+  try {
+    await db.connect()
+
+    const productInDB = await Product.findOne({ slug })
+    if (productInDB) {
+      await db.disconnect()
+      return res
+        .status(400)
+        .json({ message: 'Ya existe un producto con ese slug' })
+    }
+    const product = new Product(req.body)
+    await product.save()
+    await db.disconnect()
+
+    return res.status(201).json(product)
   } catch (error) {
     console.log(error)
     await db.disconnect()
