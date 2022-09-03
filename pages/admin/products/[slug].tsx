@@ -84,7 +84,7 @@ const ProductAdminPage: FC<Props> = ({ product }) => {
     })
 
     return () => subscription.unsubscribe()
-  }, [])
+  }, [setValue, watch])
 
   const onChangeSize = (size: string) => {
     const currentSizes = getValues('sizes')
