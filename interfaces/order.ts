@@ -9,6 +9,9 @@ export interface IOrder {
   orderSummary: OrderSummary
   isPaid: boolean
   paidAt?: string
+  transactionId?: string
+  createdAt?: string
+  updateddAt?: string
 }
 
 export interface IOrderItem {
