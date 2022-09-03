@@ -3,6 +3,9 @@ import { IProduct } from '../../../interfaces'
 import { db } from '../../../database'
 import { Product } from '../../../models'
 import { isValidObjectId } from 'mongoose'
+import { v2 as cloudinary } from 'cloudinary'
+
+cloudinary.config(process.env.CLOUDINARY_URL || '')
 
 type Data =
   | {
@@ -62,7 +65,14 @@ const updateProduct = async (
         .json({ message: 'No existe un producto con ese ID' })
     }
 
-    // TODO: eliminar/agregar imágenes en Cloudinary
+    product.images.forEach(async (image) => {
+      if (!images.includes(image)) {
+        const [fileId, extension] = image
+          .substring(image.lastIndexOf('/') + 1)
+          .split('.')
+        await cloudinary.uploader.destroy(fileId)
+      }
+    })
 
     await product.update(req.body)
     await db.disconnect()
